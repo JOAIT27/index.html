@@ -1,0 +1,2940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script type='text/javascript' nonce='bM71ERHIbMTrqjXwOTAhuw==' src='https://contribution.usercontent.google.com/4bBrWxUAvZCF6WUky8KZBNOGd_2qf9NxQ-5BcpwToobG487NXoVL582MQicUfeGKNMbGFOZozP64O-NIskHmLs4LB7iY6PJwUJbrK4RL5E9Mqyv09nO-_nkNx4CrzFV5tQwlwmN4B8UYPyRYg_PHNzexkXNgFB-qEm1at0MDC4YZLGl5uM8ulrFe52ql6tTmNcFWM0dZWNHpHQw0JGv-l3PpZKtWnwZIRwf2dFSLCggokyje_pxZdXC-iUJQlcvci8C-vfH0QU0OM40LjYZG88uRQ3LjTEM7EwwXrS35bcnL2PniJIABTNviNXEslu9HRmdXLz8qqJjxgAOURodXyj_X6008I3PVdFShqf7wjYHEBGYV4PRfy-eFSHv0IXdkFX5ZUWXJ2gvrhroevC69NN3MfxF0hI9g3HeKfGMlV6f3mBpEjmr00R1gUvCN66vm-jVNs9ChmPWEjGtrXyuzoHBL269CjLB8w_LvV0400z1Mwd6vWAsb58daPgh0V3dj8jBXYgu5pi6R7UCqiGtH5hhMqXSwHFWQYg-jTRlR5VlQ04aNtps0kKFwmuwp8Y-8CLSo0sriH5A41-ryh1P3QKBc0JxzrLLvjzNLWciRl9jfP2Pa_mvoo1im-VrxIsSdwe3MCLjYm8VU-GtPmEsBXT_IF40q50PXA9XYdnMwpHClLPGsYnMkOL2ihZZRsxDW-1yctUBzPzIlhCPrRiO8Q2R_kGXksHfeJ1KhSafNE1ePycwFVrjgPg'></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="canopy">
+  <title>GreenTrack — Campus Sustainability Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&amp;family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&amp;family=Nunito+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (earth strata) */
+      --background: #faf6ef;
+      --surface-container-low: #f0eae0;
+      --surface-container: #e8e0d2;
+      --surface-container-high: #ddd3c2;
+
+      /* Ink */
+      --on-surface: #2a302b;
+      --on-surface-variant: #4a524b;
+
+      /* Lines */
+      --outline: #737872;
+      --outline-variant: #cbc5b8;
+
+      /* Accents */
+      --primary: #366948;
+      --on-primary: #ffffff;
+      --primary-container: #d8efe0;
+      --on-primary-container: #1f4d30;
+      --secondary: #5c635c;
+      --tertiary: #8f5822;
+      --tertiary-container: #f2d4a7;
+      --on-tertiary-container: #6e3f0c;
+      --error: #b83230;
+      --on-error: #ffffff;
+      --error-container: #fae2e1;
+
+      /* Data series */
+      --data-1: #366948;
+      --data-2: #8f5822;
+      --data-3: #a85438;
+      --data-4: #4b6b78;
+      --data-5: #6b7d4e;
+      --data-context: #b5b0a3;
+
+      /* Fonts */
+      --font-headline: 'Literata', serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      /* Shape */
+      --rounded: 0.625rem;
+      --rounded-lg: 1rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --shadow-soft: 0 4px 20px rgb(42 48 43 / 0.06);
+      --shadow-soft-hover: 0 8px 28px rgb(42 48 43 / 0.09);
+      --border-soft: 1px solid rgb(203 197 184 / 0.65);
+      --focus-glow: 0 0 0 4px rgb(54 105 72 / 0.18);
+
+      /* Shared semantic & foundation tokens */
+      --positive: #366948;
+      --warning: #9a6016;
+      --warning-container: #f5e2c2;
+      --focus: #366948;
+
+      /* Dashboard type scale */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.62;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1260px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      box-shadow: var(--focus-glow);
+    }
+
+    /* Typography helpers */
+    h1, h2, h3, h4 {
+      font-family: var(--font-headline);
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.18;
+    }
+    h1 {
+      font-size: var(--display-size);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+    }
+    h2 {
+      font-size: var(--headline-size);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    h3 {
+      font-size: var(--subhead-size);
+      font-weight: 600;
+    }
+    p {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--on-surface-variant);
+    }
+    .kicker {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--label-size);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tertiary);
+    }
+    .mono-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+    .key-figure {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: clamp(1.65rem, 1.35rem + 1vw, 2.25rem);
+      font-variant-numeric: lining-nums tabular-nums;
+      line-height: 1.1;
+      color: var(--on-surface);
+    }
+
+    /* Header & Role Switcher */
+    .masthead {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: var(--border-soft);
+    }
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .brand-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .provenance-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+      background: var(--tertiary-container);
+      color: var(--on-tertiary-container);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+    }
+    .role-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-xs);
+    }
+    .role-segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background: var(--surface-container-low);
+      padding: var(--space-xs);
+      border-radius: var(--rounded-lg);
+    }
+    .role-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border: 0;
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .role-btn:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .role-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Role Context Strip + Almanac Phenology Bar */
+    .context-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.7fr);
+      gap: var(--space-md);
+      align-items: stretch;
+    }
+    .role-context-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .cap-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .cap-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      padding: 2px var(--space-sm);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .cap-tag.is-allowed {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    /* Almanac 12-Month Cycle Strip (Canopy Signature) */
+    .season-strip {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .season-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .season-cells {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .season-cell {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      min-width: 34px;
+      height: 32px;
+      padding: 0 var(--space-xs);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 0;
+      background: var(--surface-container-high);
+      color: var(--secondary);
+      cursor: pointer;
+      font-weight: 500;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+    .season-cell:hover {
+      transform: translateY(-1px);
+    }
+    .season-cell.is-prep {
+      background: var(--tertiary-container);
+      color: var(--on-tertiary-container);
+      font-weight: 700;
+    }
+    .season-cell.is-peak {
+      background: var(--primary);
+      color: var(--on-primary);
+      font-weight: 700;
+    }
+    .season-cell.is-selected {
+      outline: 2px solid var(--on-surface);
+      outline-offset: 2px;
+    }
+    .season-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--secondary);
+    }
+    .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: var(--space-xs);
+      vertical-align: middle;
+    }
+
+    /* Workspace Navigation Tabs */
+    .workspace-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: var(--border-soft);
+    }
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border: 0;
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .nav-tab:hover {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+    .nav-tab.is-active {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .nav-badge {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      padding: 1px 7px;
+      border-radius: var(--rounded-full);
+      background: var(--tertiary-container);
+      color: var(--on-tertiary-container);
+    }
+
+    /* Global Filters Bar */
+    .filter-bar {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .input-control, .select-control {
+      height: 44px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      width: 100%;
+    }
+    .select-control {
+      padding-right: var(--space-xl);
+    }
+    .input-control[aria-invalid="true"], .select-control[aria-invalid="true"] {
+      border-color: var(--error);
+      background: var(--error-container);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: 0 var(--space-lg);
+      border: 0;
+      border-radius: var(--rounded);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+      text-decoration: none;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover {
+      background: var(--on-primary-container);
+    }
+    .btn-secondary {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-container-high);
+    }
+    .btn-danger {
+      background: var(--error-container);
+      color: var(--error);
+    }
+    .btn-danger:hover {
+      background: var(--error);
+      color: var(--on-error);
+    }
+    .btn-sm {
+      min-height: 36px;
+      padding: 0 var(--space-sm);
+      font-size: 0.875rem;
+    }
+
+    /* Cards (Canopy strata + 1 pale-leaf highlight card per view) */
+    .card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      border: 0;
+    }
+    .card.is-interactive {
+      box-shadow: var(--shadow-soft);
+      transition: box-shadow var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+    }
+    .card.is-interactive:hover {
+      box-shadow: var(--shadow-soft-hover);
+      transform: translateY(-2px);
+    }
+    .card.is-leaf-highlight {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .card.is-leaf-highlight .mono-label,
+    .card.is-leaf-highlight .kicker,
+    .card.is-leaf-highlight .key-figure,
+    .card.is-leaf-highlight p {
+      color: var(--on-primary-container);
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .kpi-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .kpi-delta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: 2px var(--space-sm);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .kpi-delta.is-good {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .kpi-delta.is-warm {
+      background: var(--tertiary-container);
+      color: var(--on-tertiary-container);
+    }
+    .kpi-caption {
+      font-size: 0.875rem;
+      color: var(--tertiary);
+      font-weight: 600;
+    }
+
+    /* Asymmetric Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+    }
+    .chart-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .chart-panel.is-full {
+      grid-column: 1 / -1;
+    }
+    .chart-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 290px;
+      height: 310px;
+    }
+    .chart-rationale {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Two-column asymmetric split for secondary views */
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--rounded);
+      background: var(--background);
+      border: var(--border-soft);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.925rem;
+    }
+    thead {
+      background: var(--surface-container-low);
+    }
+    th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--border-soft);
+      white-space: nowrap;
+    }
+    td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--border-soft);
+      color: var(--on-surface);
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background: var(--surface-container-low);
+    }
+    .num-cell {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* Status tags */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px var(--space-sm);
+      border-radius: var(--rounded-full);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+    }
+    .status-pill.is-valid {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .status-pill.is-pending {
+      background: var(--tertiary-container);
+      color: var(--on-tertiary-container);
+    }
+    .status-pill.is-archived {
+      background: var(--surface-container-high);
+      color: var(--secondary);
+    }
+
+    /* Inline Notices / Banners */
+    .inline-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--rounded-lg);
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .inline-banner.is-success {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .inline-banner.is-error {
+      background: var(--error-container);
+      color: var(--error);
+    }
+    .inline-banner.is-warning {
+      background: var(--warning-container);
+      color: var(--on-tertiary-container);
+    }
+
+    /* Category Selector Pills */
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .filter-pill {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 0;
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .filter-pill.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Report Mockup Sheet */
+    .report-sheet {
+      background: var(--background);
+      border: var(--border-soft);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      box-shadow: var(--shadow-soft);
+    }
+    .report-divider {
+      border: 0;
+      border-top: var(--border-soft);
+      margin: 0;
+    }
+
+    /* Schema & Architecture Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .schema-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-sm) 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+    }
+    .schema-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-bottom: var(--space-xs);
+      border-bottom: var(--border-soft);
+    }
+
+    .hidden { display: none !important; }
+
+    /* Footer */
+    .site-footer {
+      border-top: var(--border-soft);
+      padding-top: var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Print styles for PDF Summary Report */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: var(--on-primary); }
+      .page-grid { max-width: 100%; padding: 0; }
+      .report-sheet { box-shadow: none; border: 0; padding: 0; }
+    }
+
+    @media (max-width: 900px) {
+      .context-band,
+      .charts-grid,
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+      .role-bar {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-md);
+      }
+      .masthead {
+        gap: var(--space-md);
+      }
+      .chart-wrap {
+        min-height: 240px;
+        height: 250px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- MASTHEAD & ROLE SWITCHER -->
+    <header class="masthead no-print">
+      <div class="brand-block">
+        <div class="brand-meta">
+          <span class="kicker">Campus Sustainability Platform</span>
+          <span class="provenance-pill">
+            <i data-lucide="database" aria-hidden="true" width="14" height="14"></i>
+            Synthetic Campus Series (Mock Starter Data)
+          </span>
+        </div>
+        <h1>GreenTrack</h1>
+        <p>Unified campus explorer for Electricity (kWh), Water (kL), and Waste/Recycling (kg) across 24 months and 5 campus buildings.</p>
+      </div>
+
+      <div class="role-bar">
+        <span class="mono-label">Simulated Prototype Role</span>
+        <div class="role-segmented" role="group" aria-label="Simulated user role">
+          <button type="button" class="role-btn is-active" id="role-btn-student" onclick="setRole(&#39;student&#39;)">
+            <i data-lucide="graduation-cap" aria-hidden="true" width="16" height="16"></i>
+            Students &amp; Researchers
+          </button>
+          <button type="button" class="role-btn" id="role-btn-staff" onclick="setRole(&#39;staff&#39;)">
+            <i data-lucide="clipboard-check" aria-hidden="true" width="16" height="16"></i>
+            Sustainability Staff
+          </button>
+          <button type="button" class="role-btn" id="role-btn-admin" onclick="setRole(&#39;admin&#39;)">
+            <i data-lucide="landmark" aria-hidden="true" width="16" height="16"></i>
+            University Admin
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ROLE CONTEXT + ALMANAC 12-MONTH CYCLE STRIP -->
+    <section class="context-band no-print" aria-label="Active role permissions and monthly reporting cycle">
+      <div class="role-context-card">
+        <div>
+          <span class="mono-label" id="role-title-label">Active Perspective: Students / Faculty / Researchers</span>
+          <p id="role-desc" style="margin-top: var(--space-xs); font-size: 0.925rem;">
+            Explore environmental trends, compare H1 Baseline vs. H2 Comparison periods, generate campus green tips, and export CSV/PDF datasets.
+          </p>
+        </div>
+        <div class="cap-tags" id="role-cap-tags"></div>
+      </div>
+
+      <div class="season-strip">
+        <div class="season-header">
+          <span class="mono-label" id="almanac-label">2025 Reporting Almanac · H1 Baseline vs H2 Comparison</span>
+          <div class="season-legend">
+            <span><span class="legend-dot" style="background: var(--tertiary-container);"></span>H1 Baseline (Jan–Jun)</span>
+            <span><span class="legend-dot" style="background: var(--primary);"></span>H2 Comparison (Jul–Dec)</span>
+          </div>
+        </div>
+        <div class="season-cells" id="season-cells" role="group" aria-label="Select month to inspect"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+          <span class="mono-label" id="selected-month-summary">Showing full period · Click any month cell to spotlight</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="clear-month-btn" onclick="selectMonthSpotlight(null)">Show All Months</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIMARY WORKSPACE NAVIGATION -->
+    <nav class="workspace-nav no-print" aria-label="Dashboard sections">
+      <div class="nav-tabs">
+        <button type="button" class="nav-tab is-active" id="tab-overview" onclick="setActiveTab(&#39;overview&#39;)">
+          <i data-lucide="bar-chart-3" aria-hidden="true" width="16" height="16"></i>
+          Dashboard &amp; Visualizations
+        </button>
+        <button type="button" class="nav-tab" id="tab-categories" onclick="setActiveTab(&#39;categories&#39;)">
+          <i data-lucide="layers" aria-hidden="true" width="16" height="16"></i>
+          Category Deep Dive
+        </button>
+        <button type="button" class="nav-tab" id="tab-data-entry" onclick="setActiveTab(&#39;data-entry&#39;)">
+          <i data-lucide="file-plus-2" aria-hidden="true" width="16" height="16"></i>
+          Data Entry &amp; Validation
+          <span class="nav-badge" id="pending-badge">0 Pending</span>
+        </button>
+        <button type="button" class="nav-tab" id="tab-exports" onclick="setActiveTab(&#39;exports&#39;)">
+          <i data-lucide="download" aria-hidden="true" width="16" height="16"></i>
+          Reports &amp; Export
+        </button>
+        <button type="button" class="nav-tab" id="tab-governance" onclick="setActiveTab(&#39;governance&#39;)">
+          <i data-lucide="shield-check" aria-hidden="true" width="16" height="16"></i>
+          Schema &amp; Governance
+        </button>
+      </div>
+
+      <div style="display: flex; gap: var(--space-sm); align-items: center;">
+        <button type="button" class="btn btn-secondary btn-sm" id="reset-demo-btn" onclick="handleResetDemo(this)">
+          <i data-lucide="rotate-ccw" aria-hidden="true" width="14" height="14"></i>
+          Reset Starter Data
+        </button>
+      </div>
+    </nav>
+
+    <!-- GLOBAL STATUS BANNER (for inline notifications, never alert/confirm) -->
+    <div id="global-status-banner" class="inline-banner hidden no-print" role="status" aria-live="polite">
+      <span id="global-status-text"></span>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="hideGlobalBanner()">Dismiss</button>
+    </div>
+
+    <!-- GLOBAL FILTERS BAR (Visible on Dashboard, Category, and Export tabs) -->
+    <section class="filter-bar no-print" id="global-filter-bar" aria-label="Dashboard dataset filters">
+      <div class="field-group">
+        <label class="field-label" for="filter-year">Reporting Year</label>
+        <select class="select-control" id="filter-year" onchange="onFilterChange()">
+          <option value="2025">Full Year 2025 (12 mo.)</option>
+          <option value="2024">Baseline Year 2024 (12 mo.)</option>
+          <option value="all">24-Month Series (2024–2025)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="filter-period">Comparison Window</label>
+        <select class="select-control" id="filter-period" onchange="onFilterChange()">
+          <option value="all">All Months (H1 + H2)</option>
+          <option value="H1 Baseline">H1 Baseline (Jan–Jun)</option>
+          <option value="H2 Comparison">H2 Comparison (Jul–Dec)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="filter-location">Campus Location</label>
+        <select class="select-control" id="filter-location" onchange="onFilterChange()">
+          <option value="Campus Total">Campus Total (All 5 Buildings)</option>
+          <option value="Science Hall">Science Hall</option>
+          <option value="Engineering Center">Engineering Center</option>
+          <option value="Student Union">Student Union</option>
+          <option value="Main Library">Main Library</option>
+          <option value="Residence Commons">Residence Commons</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="filter-validation">Validation Gate</label>
+        <select class="select-control" id="filter-validation" onchange="onFilterChange()">
+          <option value="validated">Validated Records Only</option>
+          <option value="all">Include Pending Unvalidated</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 1: OVERVIEW & VISUALIZATIONS                          -->
+    <!-- ========================================================= -->
+    <main id="view-overview" class="view-section" style="display: grid; gap: var(--space-lg);">
+      <!-- Top KPI Strip (Only 1 pale-leaf highlight card per view) -->
+      <section class="kpi-grid" aria-label="Key sustainability metrics">
+        <article class="card is-leaf-highlight kpi-card" id="kpi-highlight-card">
+          <div class="kpi-top">
+            <span class="mono-label">Campus Sustainability Index</span>
+            <span class="kpi-delta is-good" id="kpi-yoy-badge">H1 vs H2</span>
+          </div>
+          <div class="key-figure" id="kpi-spotlight-value">100%</div>
+          <p id="kpi-spotlight-caption" style="font-size: 0.9rem;">Validated monthly readings active across 5 campus buildings.</p>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-top">
+            <span class="mono-label">Electricity · kWh</span>
+            <span class="kpi-delta is-warm" id="kpi-elec-delta">—</span>
+          </div>
+          <div class="key-figure" id="kpi-elec-value">—</div>
+          <span class="kpi-caption" id="kpi-elec-caption">Total consumption in selection</span>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-top">
+            <span class="mono-label">Water · kL</span>
+            <span class="kpi-delta is-warm" id="kpi-water-delta">—</span>
+          </div>
+          <div class="key-figure" id="kpi-water-value">—</div>
+          <span class="kpi-caption" id="kpi-water-caption">Total municipal water in selection</span>
+        </article>
+
+        <article class="card kpi-card">
+          <div class="kpi-top">
+            <span class="mono-label">Waste &amp; Recycling · kg</span>
+            <span class="kpi-delta is-good" id="kpi-recyc-delta">—</span>
+          </div>
+          <div class="key-figure" id="kpi-recyc-value">—</div>
+          <span class="kpi-caption" id="kpi-recyc-caption">Diverted recyclable mass in selection</span>
+        </article>
+      </section>
+
+      <!-- Admin Executive Notice OR Student Green Tips Interactive Card -->
+      <section id="role-spotlight-panel" class="card" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-md);">
+        <div style="display: flex; flex-direction: column; gap: var(--space-xs); max-width: 70ch;">
+          <span class="kicker" id="spotlight-kicker">Campus Action · Green Tips Generator</span>
+          <h3 id="spotlight-heading">Practical Energy &amp; Diversion Tip</h3>
+          <p id="spotlight-body">Turn off lab fume-hood sashes and shared studio displays after 6 PM—Science Hall and Engineering Center account for 52% of campus electricity load.</p>
+        </div>
+        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" id="spotlight-action-btn" onclick="cycleGreenTip()">
+            <i data-lucide="sparkles" aria-hidden="true" width="16" height="16"></i>
+            Next Green Tip
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="setActiveTab(&#39;exports&#39;)">
+            <i data-lucide="file-spreadsheet" aria-hidden="true" width="16" height="16"></i>
+            Export Filtered View
+          </button>
+        </div>
+      </section>
+
+      <!-- Main Charts Grid (Asymmetric 1.35fr / 1fr) -->
+      <section class="charts-grid" aria-label="Interactive sustainability visualizations">
+        <!-- Chart 1: Electricity Trend Line Chart -->
+        <article class="card is-interactive chart-panel">
+          <div class="chart-head">
+            <div>
+              <span class="mono-label">Electricity Trend · kWh</span>
+              <h3>Monthly Campus Electricity Consumption</h3>
+            </div>
+            <span class="cap-tag" id="elec-chart-tag">Line Chart · H1 vs H2</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-electricity" aria-label="Monthly electricity consumption line chart"></canvas>
+          </div>
+          <div class="chart-rationale">
+            <strong>Chart Justification:</strong> A continuous <em>line chart</em> highlights seasonal cooling peaks (Jul–Aug) and H1-to-H2 demand shifts across time; missing months render as explicit gaps rather than zeros.
+          </div>
+        </article>
+
+        <!-- Chart 2: Building Share / Pie-Doughnut Chart -->
+        <article class="card is-interactive chart-panel">
+          <div class="chart-head">
+            <div>
+              <span class="mono-label">Building Distribution</span>
+              <h3 id="building-pie-title">Share by Campus Building</h3>
+            </div>
+            <select class="select-control" id="pie-metric-select" aria-label="Select metric for building distribution" style="width: auto; height: 38px;" onchange="renderAllCharts()">
+              <option value="Electricity">Electricity (kWh)</option>
+              <option value="Water">Water (kL)</option>
+              <option value="Recycling">Recycling (kg)</option>
+            </select>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-building-pie" aria-label="Campus building distribution doughnut chart"></canvas>
+          </div>
+          <div class="chart-rationale">
+            <strong>Chart Justification:</strong> A <em>doughnut chart</em> illustrates part-to-whole building proportions so Sustainability Staff can prioritize high-intensity facilities.
+          </div>
+        </article>
+
+        <!-- Chart 3: Water Consumption Monthly Bar Chart -->
+        <article class="card is-interactive chart-panel">
+          <div class="chart-head">
+            <div>
+              <span class="mono-label">Water Consumption · kL</span>
+              <h3>Monthly Campus Water Volume</h3>
+            </div>
+            <span class="cap-tag">Bar Chart · Discrete Monthly Volume</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-water" aria-label="Monthly water consumption bar chart"></canvas>
+          </div>
+          <div class="chart-rationale">
+            <strong>Chart Justification:</strong> A <em>bar chart</em> enables clear month-by-month volume comparison in kiloliters (kL), isolating summer irrigation and cooling-tower spikes.
+          </div>
+        </article>
+
+        <!-- Chart 4: Recycling Trend & H1/H2 Comparison -->
+        <article class="card is-interactive chart-panel">
+          <div class="chart-head">
+            <div>
+              <span class="mono-label">Waste &amp; Recycling · kg</span>
+              <h3>Diverted Materials &amp; H1 vs. H2 Pace</h3>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="recyc-mode-btn" onclick="toggleRecyclingChartMode()">Switch to H1 vs H2 Bar</button>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-recycling" aria-label="Monthly recycling weight chart"></canvas>
+          </div>
+          <div class="chart-rationale">
+            <strong>Chart Justification:</strong> Toggle between a <em>monthly trend line</em> and a <em>period comparison bar chart</em> to evaluate recycling diversion momentum in kilograms (kg).
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 2: CATEGORY DEEP DIVE (Electricity / Water / Recycling)-->
+    <!-- ========================================================= -->
+    <section id="view-categories" class="view-section hidden" style="display: grid; gap: var(--space-lg);">
+      <div class="card" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-md);">
+        <div>
+          <span class="kicker">Dedicated Category Screen</span>
+          <h2>Metric Deep Dive &amp; Building Comparison</h2>
+          <p>Inspect unit-standardized monthly figures, compare H1 Baseline against H2 Comparison, and examine building-level breakdowns.</p>
+        </div>
+        <div class="pill-row" role="group" aria-label="Select sustainability category">
+          <button type="button" class="filter-pill is-active" id="cat-pill-Electricity" onclick="setCategoryView(&#39;Electricity&#39;)">Electricity (kWh)</button>
+          <button type="button" class="filter-pill" id="cat-pill-Water" onclick="setCategoryView(&#39;Water&#39;)">Water (kL)</button>
+          <button type="button" class="filter-pill" id="cat-pill-Recycling" onclick="setCategoryView(&#39;Recycling&#39;)">Recycling (kg)</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <article class="card is-leaf-highlight kpi-card">
+          <span class="mono-label" id="cat-kpi-label-1">Selected Category Total</span>
+          <div class="key-figure" id="cat-kpi-total">—</div>
+          <p id="cat-kpi-sub-1">Cumulative across filtered months</p>
+        </article>
+        <article class="card kpi-card">
+          <span class="mono-label">H1 Baseline Average (Jan–Jun)</span>
+          <div class="key-figure" id="cat-kpi-h1">—</div>
+          <span class="kpi-caption">Monthly mean in H1 window</span>
+        </article>
+        <article class="card kpi-card">
+          <span class="mono-label">H2 Comparison Average (Jul–Dec)</span>
+          <div class="key-figure" id="cat-kpi-h2">—</div>
+          <span class="kpi-caption" id="cat-kpi-h2-delta">Delta vs. H1 Baseline</span>
+        </article>
+        <article class="card kpi-card">
+          <span class="mono-label">Peak Month Observed</span>
+          <div class="key-figure" id="cat-kpi-peak">—</div>
+          <span class="kpi-caption" id="cat-kpi-peak-month">—</span>
+        </article>
+      </div>
+
+      <div class="split-grid">
+        <article class="card chart-panel">
+          <div class="chart-head">
+            <div>
+              <span class="mono-label" id="cat-chart-unit">Building Comparison</span>
+              <h3 id="cat-chart-title">Building Totals for Selected Category</h3>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-category-buildings" aria-label="Building comparison bar chart"></canvas>
+          </div>
+          <div class="chart-rationale">
+            Horizontal comparison across all 5 campus buildings reveals where targeted efficiency retrofits or bin-signage campaigns will yield the highest impact.
+          </div>
+        </article>
+
+        <article class="card" style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm);">
+            <div>
+              <span class="mono-label">Monthly Series Ledger</span>
+              <h3 id="cat-table-title">Monthly Readings</h3>
+            </div>
+            <span class="cap-tag" id="cat-table-unit-tag">Unit: kWh</span>
+          </div>
+          <div class="table-wrap" style="max-height: 390px; overflow-y: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Period</th>
+                  <th>Location</th>
+                  <th style="text-align: right;">Value</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="cat-table-body"></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 3: STAFF DATA ENTRY, VALIDATION & CRUD LEDGER        -->
+    <!-- ========================================================= -->
+    <section id="view-data-entry" class="view-section hidden" style="display: grid; gap: var(--space-lg);">
+      <!-- RBAC Notice when not in Staff role -->
+      <div class="inline-banner is-warning" id="staff-rbac-notice">
+        <div>
+          <strong>Read-Only View in Current Role:</strong> Adding, validating, editing, or archiving records requires <strong>Authorized Sustainability Staff</strong> permissions.
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" onclick="setRole(&#39;staff&#39;)">Switch to Sustainability Staff</button>
+      </div>
+
+      <div class="split-grid">
+        <!-- Left Column: Data Entry & Validation Form -->
+        <article class="card" style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div>
+            <span class="kicker">Create / Update · Input Validation Gate</span>
+            <h2 id="form-heading">Add Monthly Sustainability Reading</h2>
+            <p style="font-size: 0.9rem; margin-top: var(--space-xs);">
+              Enforces Unit 5/7 rules: <code>amount &ge; 0</code>, month must be first day (<code>YYYY-MM-01</code>), unit must match metric, and unique <code>(location, metric, month)</code>.
+            </p>
+          </div>
+
+          <form id="reading-form" onsubmit="submitReadingForm(event)" novalidate="" style="display: grid; gap: var(--space-md);">
+            <input type="hidden" id="edit-record-id" value="">
+
+            <div class="field-group">
+              <label class="field-label" for="form-category">Data Category</label>
+              <select class="select-control" id="form-category" onchange="syncExpectedUnit()">
+                <option value="Electricity">Electricity</option>
+                <option value="Water">Water</option>
+                <option value="Recycling">Recycling</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="form-location">Campus Building / Location</label>
+              <select class="select-control" id="form-location">
+                <option value="Science Hall">Science Hall</option>
+                <option value="Engineering Center">Engineering Center</option>
+                <option value="Student Union">Student Union</option>
+                <option value="Main Library">Main Library</option>
+                <option value="Residence Commons">Residence Commons</option>
+              </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+              <div class="field-group">
+                <label class="field-label" for="form-month">Reading Month (YYYY-MM-01)</label>
+                <input class="input-control" type="text" id="form-month" value="2025-12-01" placeholder="YYYY-MM-01">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="form-value">Measured Amount</label>
+                <input class="input-control" type="number" id="form-value" step="any" min="0" placeholder="e.g., 32400">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+              <div class="field-group">
+                <label class="field-label" for="form-unit">Unit (Strict Match)</label>
+                <select class="select-control" id="form-unit">
+                  <option value="kWh">kWh (Electricity)</option>
+                  <option value="kL">kL (Water)</option>
+                  <option value="kg">kg (Recycling)</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="form-provenance">Data Provenance</label>
+                <select class="select-control" id="form-provenance">
+                  <option value="mock">mock (Synthetic Starter)</option>
+                  <option value="public">public (EPA / ENERGY STAR)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="form-audit-note">Source / Correction Note</label>
+              <input class="input-control" type="text" id="form-audit-note" value="Synthetic Campus Series" placeholder="Describe data source or reason for correction">
+            </div>
+
+            <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; font-weight: 600;">
+              <input type="checkbox" id="form-validated" style="width: 18px; height: 18px; accent-color: var(--primary);">
+              <span>Approve immediately (set <code>is_validated = true</code>)</span>
+            </label>
+
+            <div id="form-validation-msg" class="inline-banner hidden" style="padding: var(--space-sm) var(--space-md);" role="alert"></div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+              <button type="submit" class="btn btn-primary" id="form-submit-btn">
+                <i data-lucide="check-circle-2" aria-hidden="true" width="16" height="16"></i>
+                Validate &amp; Save Record
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="runDryValidation()">Check Rules Only</button>
+              <button type="button" class="btn btn-secondary hidden" id="form-cancel-edit-btn" onclick="cancelEditRecord()">Cancel Edit</button>
+            </div>
+          </form>
+
+          <!-- Simulated CSV Batch Upload -->
+          <div style="border-top: var(--border-soft); padding-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm);">
+            <span class="mono-label">Batch Upload Simulator</span>
+            <p style="font-size: 0.875rem;">Simulate uploading a monthly facility CSV packet (adds 3 unvalidated draft readings into the validation gate queue for staff review).</p>
+            <button type="button" class="btn btn-secondary btn-sm" id="batch-upload-btn" onclick="simulateCsvBatchUpload()">
+              <i data-lucide="upload" aria-hidden="true" width="14" height="14"></i>
+              Simulate Staff CSV Upload (3 Pending Drafts)
+            </button>
+          </div>
+        </article>
+
+        <!-- Right Column: CRUD Ledger + Audit Trail -->
+        <div style="display: flex; flex-direction: column; gap: var(--space-lg);">
+          <article class="card" style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm);">
+              <div>
+                <span class="mono-label">Four-Action CRUD Ledger</span>
+                <h3>Monthly Readings &amp; Validation Queue</h3>
+              </div>
+              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+                <select class="select-control" id="ledger-status-filter" style="width: auto; height: 38px;" onchange="renderCrudLedger()">
+                  <option value="all-active">All Active</option>
+                  <option value="pending">Pending Validation</option>
+                  <option value="validated">Validated Only</option>
+                  <option value="archived">Archived (Soft Deleted)</option>
+                </select>
+                <select class="select-control" id="ledger-cat-filter" style="width: auto; height: 38px;" onchange="renderCrudLedger()">
+                  <option value="all">All Categories</option>
+                  <option value="Electricity">Electricity</option>
+                  <option value="Water">Water</option>
+                  <option value="Recycling">Recycling</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-wrap" style="max-height: 410px; overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Location</th>
+                    <th>Category</th>
+                    <th style="text-align: right;">Amount</th>
+                    <th>Gate</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="crud-ledger-body"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card" style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="mono-label">Audit Log · Change Provenance</span>
+              <span class="cap-tag" id="audit-count-tag">0 Events</span>
+            </div>
+            <div id="audit-log-list" style="display: flex; flex-direction: column; gap: var(--space-xs); max-height: 220px; overflow-y: auto;"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 4: REPORTS & CSV / PDF EXPORT TOOLS                  -->
+    <!-- ========================================================= -->
+    <section id="view-exports" class="view-section hidden" style="display: grid; gap: var(--space-lg);">
+      <div class="split-grid">
+        <!-- Export Configuration Panel -->
+        <article class="card no-print" style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div>
+            <span class="kicker">Institutional &amp; Research Exports</span>
+            <h2>Generate CSV &amp; Summary Reports</h2>
+            <p style="font-size: 0.9rem; margin-top: var(--space-xs);">
+              Exports preserve exact units (kWh, kL, kg), building location, reporting period, data provenance, and validation status.
+            </p>
+          </div>
+
+          <div class="field-group">
+            <span class="field-label">Included Categories</span>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md);">
+              <label style="display: flex; align-items: center; gap: var(--space-xs); font-weight: 600;">
+                <input type="checkbox" id="exp-cat-Electricity" checked="" onchange="renderExportPreview()"> Electricity (kWh)
+              </label>
+              <label style="display: flex; align-items: center; gap: var(--space-xs); font-weight: 600;">
+                <input type="checkbox" id="exp-cat-Water" checked="" onchange="renderExportPreview()"> Water (kL)
+              </label>
+              <label style="display: flex; align-items: center; gap: var(--space-xs); font-weight: 600;">
+                <input type="checkbox" id="exp-cat-Recycling" checked="" onchange="renderExportPreview()"> Recycling (kg)
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="exp-granularity">Export Granularity</label>
+            <select class="select-control" id="exp-granularity" onchange="renderExportPreview()">
+              <option value="building">Building-Level Rows (up to 360 rows)</option>
+              <option value="campus">Aggregated Campus Total Rows</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <button type="button" class="btn btn-primary" onclick="downloadCsvExport()">
+              <i data-lucide="file-spreadsheet" aria-hidden="true" width="16" height="16"></i>
+              Download CSV Dataset (.csv)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="downloadTextSummaryReport()">
+              <i data-lucide="file-text" aria-hidden="true" width="16" height="16"></i>
+              Download Executive Summary (.txt)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="printPdfSummary()">
+              <i data-lucide="printer" aria-hidden="true" width="16" height="16"></i>
+              Print / Save PDF Monthly Summary
+            </button>
+          </div>
+
+          <div class="chart-rationale">
+            <strong>CSV Schema Headers:</strong><br>
+            <code>location,category,reading_month,value,unit,period,source,provenance,is_validated</code>
+          </div>
+        </article>
+
+        <!-- Right Column: Live CSV Preview + PDF Summary Mockup -->
+        <div style="display: flex; flex-direction: column; gap: var(--space-lg);">
+          <article class="report-sheet" id="pdf-report-preview">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-md);">
+              <div>
+                <span class="kicker">PDF Monthly Summary Preview</span>
+                <h2>GreenTrack Institutional Sustainability Brief</h2>
+                <p id="report-meta-line" style="font-size: 0.9rem; margin-top: var(--space-xs);"></p>
+              </div>
+              <span class="provenance-pill">Mock / Public Provenance</span>
+            </div>
+
+            <hr class="report-divider">
+
+            <div class="kpi-grid">
+              <div class="card is-leaf-highlight" style="padding: var(--space-md);">
+                <span class="mono-label">Electricity Total</span>
+                <div class="key-figure" id="rep-elec-total" style="font-size: 1.5rem;">—</div>
+              </div>
+              <div class="card" style="padding: var(--space-md);">
+                <span class="mono-label">Water Total</span>
+                <div class="key-figure" id="rep-water-total" style="font-size: 1.5rem;">—</div>
+              </div>
+              <div class="card" style="padding: var(--space-md);">
+                <span class="mono-label">Recycling Total</span>
+                <div class="key-figure" id="rep-recyc-total" style="font-size: 1.5rem;">—</div>
+              </div>
+            </div>
+
+            <div>
+              <span class="mono-label">H1 Baseline vs. H2 Comparison Summary</span>
+              <div class="table-wrap" style="margin-top: var(--space-sm);">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th style="text-align: right;">H1 Baseline</th>
+                      <th style="text-align: right;">H2 Comparison</th>
+                      <th style="text-align: right;">H1 → H2 Delta</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rep-comparison-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="no-print">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+                <span class="mono-label">CSV Export Preview (First 12 Rows)</span>
+                <span class="cap-tag" id="csv-row-count-tag">0 rows ready</span>
+              </div>
+              <div class="table-wrap" style="max-height: 250px; overflow-y: auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>location</th>
+                      <th>category</th>
+                      <th>reading_month</th>
+                      <th style="text-align: right;">value</th>
+                      <th>unit</th>
+                      <th>is_validated</th>
+                    </tr>
+                  </thead>
+                  <tbody id="csv-preview-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <hr class="report-divider">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); font-family: var(--font-label); font-size: var(--label-size); color: var(--secondary);">
+              <span id="rep-footer-source">Source: Synthetic Campus Series (mock)</span>
+              <span id="rep-footer-date">Generated: —</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- VIEW 5: DATA SCHEMA, SECURITY & GOVERNANCE ARCHITECTURE   -->
+    <!-- ========================================================= -->
+    <section id="view-governance" class="view-section hidden" style="display: grid; gap: var(--space-lg);">
+      <article class="card is-leaf-highlight">
+        <span class="kicker">Architecture &amp; Data Governance</span>
+        <h2>Four-Table Relational Model &amp; Five-Layer Security Design</h2>
+        <p style="margin-top: var(--space-xs);">
+          Designed around Sprint 1 validation gates (<code>is_validated</code>), composite uniqueness <code>UNIQUE(location, metric, month)</code>, and institutional security controls from the GreenTrack IT299 technical specifications.
+        </p>
+      </article>
+
+      <div class="card-grid">
+        <article class="card">
+          <span class="mono-label">Table 1 · Dimension</span>
+          <h3>Locations</h3>
+          <ul class="schema-list">
+            <li><span>location_id (PK)</span><span>INT</span></li>
+            <li><span>building_name</span><span>VARCHAR</span></li>
+            <li><span>building_code</span><span>VARCHAR</span></li>
+            <li><span>gross_sqft</span><span>INT</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="mono-label">Table 2 · Dimension</span>
+          <h3>Metrics</h3>
+          <ul class="schema-list">
+            <li><span>metric_id (PK)</span><span>INT</span></li>
+            <li><span>category_name</span><span>ENUM</span></li>
+            <li><span>unit_symbol</span><span>kWh | kL | kg</span></li>
+            <li><span>display_color</span><span>TOKEN</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="mono-label">Table 3 · Provenance</span>
+          <h3>DataSources</h3>
+          <ul class="schema-list">
+            <li><span>source_id (PK)</span><span>INT</span></li>
+            <li><span>source_label</span><span>VARCHAR</span></li>
+            <li><span>provenance_type</span><span>mock | public</span></li>
+            <li><span>published_date</span><span>DATE</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="mono-label">Table 4 · Fact</span>
+          <h3>MonthlyReadings</h3>
+          <ul class="schema-list">
+            <li><span>reading_id (PK)</span><span>UUID</span></li>
+            <li><span>location_id, metric_id (FK)</span><span>UNIQUE</span></li>
+            <li><span>reading_month</span><span>YYYY-MM-01</span></li>
+            <li><span>amount, is_validated</span><span>NUM, BOOL</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="card" style="display: flex; flex-direction: column; gap: var(--space-md);">
+        <div>
+          <span class="mono-label">Unit 7 Security Architecture</span>
+          <h3>Five Major Security Components &amp; Production Recommendations</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Component</th>
+                <th>Purpose &amp; Risk Reduction</th>
+                <th>Prototype Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num-cell" style="text-align: left;">01</td>
+                <td><strong>User Devices &amp; Endpoints</strong></td>
+                <td>University laptops, desktops, and tablets used by students, staff, and administration.</td>
+                <td><span class="status-pill is-valid">Active UI</span></td>
+              </tr>
+              <tr>
+                <td class="num-cell" style="text-align: left;">02</td>
+                <td><strong>Identity &amp; Authentication</strong></td>
+                <td>University Single Sign-On (SSO), Multi-Factor Authentication (MFA) for privileged staff/admin accounts, and role claims.</td>
+                <td><span class="status-pill is-pending">Simulated Role</span></td>
+              </tr>
+              <tr>
+                <td class="num-cell" style="text-align: left;">03</td>
+                <td><strong>Security Gateway &amp; Web Server</strong></td>
+                <td>TLS/HTTPS transport encryption, Web Application Firewall (WAF), rate limiting, and secure session filtering.</td>
+                <td><span class="status-pill is-pending">Design Spec</span></td>
+              </tr>
+              <tr>
+                <td class="num-cell" style="text-align: left;">04</td>
+                <td><strong>Application / API Server</strong></td>
+                <td>Server-side role authorization, strict input validation (<code>kWh</code>, <code>kL</code>, <code>kg</code>), and CSV/PDF report generation.</td>
+                <td><span class="status-pill is-valid">Validation Rules Live</span></td>
+              </tr>
+              <tr>
+                <td class="num-cell" style="text-align: left;">05</td>
+                <td><strong>Private Database &amp; Backups</strong></td>
+                <td>Encrypted private network database with automated backups, restoration drills, audit logs, and soft-archive retention.</td>
+                <td><span class="status-pill is-valid">Audit + Soft Delete Live</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <footer class="site-footer no-print">
+      <span>GreenTrack Campus Sustainability Dashboard · Grounded in IT299 Scenario Packet 4a &amp; Unit 4–7 Specifications.</span>
+      <span class="mono-label">All readings synthetic / mock · State persisted via notebookAppApi</span>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    /* =====================================================================
+       1. CONSTANTS & STARTER DATA (24 Months x 5 Buildings x 3 Categories = 360 Rows)
+       ===================================================================== */
+    const MONTHS_SHORT = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
+    const BUILDINGS = [`Science Hall`, `Engineering Center`, `Student Union`, `Main Library`, `Residence Commons`];
+    const BUILDING_WEIGHTS = [0.28, 0.24, 0.19, 0.15, 0.14];
+
+    const CATEGORY_UNITS = {
+      Electricity: `kWh`,
+      Water: `kL`,
+      Recycling: `kg`
+    };
+
+    /* Exact Campus Totals from Unit 5 Wireframes (2025) + 2024 Mock Baseline */
+    const CAMPUS_SERIES = {
+      2025: {
+        Electricity: [124000, 118500, 121200, 116800, 119400, 128600, 136400, 134900, 127300, 120500, 122800, 126100],
+        Water:       [1850,   1780,   1890,   1930,   1970,   2020,   2080,   2060,   1980,   1910,   1855,   1810],
+        Recycling:   [6400,   6100,   6700,   6850,   7100,   7300,   7550,   7480,   7020,   6880,   6620,   6500]
+      },
+      2024: {
+        Electricity: [129200, 123100, 125400, 120900, 124100, 133500, 141200, 139800, 131900, 125200, 127400, 130800],
+        Water:       [1920,   1840,   1950,   1990,   2040,   2110,   2170,   2150,   2050,   1980,   1915,   1875],
+        Recycling:   [5950,   5720,   6240,   6390,   6610,   6820,   7040,   6980,   6580,   6410,   6190,   6080]
+      }
+    };
+
+    const GREEN_TIPS = [
+      {
+        title: `Lab Sash & Equipment Scheduling`,
+        body: `Closing variable-air-volume fume-hood sashes after 6 PM in Science Hall and Engineering Center trims peak campus electricity by up to 8%.`
+      },
+      {
+        title: `Cooling Tower Blowdown Optimization`,
+        body: `Summer water consumption peaks in July (2,080 kL) and August (2,060 kL). Recirculating cooling-tower water reduces municipal draw during warm months.`
+      },
+      {
+        title: `Clean-Stream Recycling Signage`,
+        body: `Standardizing three-bin sorting stations in Student Union and Residence Commons helped boost 2025 campus recycling diversion over 2024 baseline.`
+      },
+      {
+        title: `Library Daylight Harvesting`,
+        body: `Automated perimeter dimming in Main Library during sunny spring afternoons cuts daytime lighting kWh without reducing reading comfort.`
+      },
+      {
+        title: `Audit Missing Months as Gaps`,
+        body: `Never substitute zero for an unverified meter reading—GreenTrack keeps missing months as explicit chart gaps until Sustainability Staff validate the source file.`
+      }
+    ];
+
+    const ROLE_CONFIG = {
+      student: {
+        label: `Students / Faculty / Researchers`,
+        desc: `Explore environmental trends, compare H1 Baseline vs. H2 Comparison periods, cycle campus green tips, and export CSV/PDF datasets for coursework.`,
+        caps: [
+          { text: `View Dashboard`, allowed: true },
+          { text: `Filter & Compare H1/H2`, allowed: true },
+          { text: `Export CSV / PDF`, allowed: true },
+          { text: `Upload & Validate`, allowed: false }
+        ],
+        defaultTab: `overview`
+      },
+      staff: {
+        label: `Authorized Sustainability Staff`,
+        desc: `Upload new monthly readings, verify strict unit and date validation rules, approve records past the validation gate, and archive erroneous entries with audit tracking.`,
+        caps: [
+          { text: `View & Export`, allowed: true },
+          { text: `Add Readings (POST)`, allowed: true },
+          { text: `Approve Gate (PATCH)`, allowed: true },
+          { text: `Soft Archive (DELETE)`, allowed: true }
+        ],
+        defaultTab: `data-entry`
+      },
+      admin: {
+        label: `University Administration`,
+        desc: `Monitor campus-wide H1 vs. H2 sustainability KPIs, review institutional reports, and inspect GreenTrack's four-table schema and five-layer security posture.`,
+        caps: [
+          { text: `Executive KPIs`, allowed: true },
+          { text: `H1 vs H2 Benchmarks`, allowed: true },
+          { text: `Institutional PDF/CSV`, allowed: true },
+          { text: `Security & Governance`, allowed: true }
+        ],
+        defaultTab: `overview`
+      }
+    };
+
+    function buildStarterRecords() {
+      const rows = [];
+      let idCounter = 1;
+      [2024, 2025].forEach(year => {
+        Object.keys(CATEGORY_UNITS).forEach(category => {
+          const unit = CATEGORY_UNITS[category];
+          const monthlyTotals = CAMPUS_SERIES[year][category];
+          monthlyTotals.forEach((total, mIdx) => {
+            const monthNum = String(mIdx + 1).padStart(2, `0`);
+            const readingMonth = `${year}-${monthNum}-01`;
+            const period = mIdx < 6 ? `H1 Baseline` : `H2 Comparison`;
+            let allocated = 0;
+
+            BUILDINGS.forEach((building, bIdx) => {
+              let val;
+              if (bIdx < BUILDINGS.length - 1) {
+                val = Math.round(total * BUILDING_WEIGHTS[bIdx]);
+                allocated += val;
+              } else {
+                val = total - allocated;
+              }
+              rows.push({
+                id: `rec-${idCounter++}`,
+                location: building,
+                category: category,
+                reading_month: readingMonth,
+                value: val,
+                unit: unit,
+                period: period,
+                source: `Synthetic Campus Series`,
+                provenance: `mock`,
+                is_validated: true,
+                is_archived: false,
+                note: `Initial starter packet`
+              });
+            });
+          });
+        });
+      });
+      return rows;
+    }
+
+    /* =====================================================================
+       2. APPLICATION STATE & PERSISTENCE
+       ===================================================================== */
+    let appState = {
+      role: `student`,
+      activeTab: `overview`,
+      activeCategoryView: `Electricity`,
+      yearFilter: `2025`,
+      periodFilter: `all`,
+      locationFilter: `Campus Total`,
+      validationFilter: `validated`,
+      monthSpotlight: null,
+      recyclingChartMode: `line`,
+      tipIndex: 0,
+      records: buildStarterRecords(),
+      auditLog: [
+        {
+          timestamp: `2025-12-01 09:00`,
+          actor: `System Seed`,
+          action: `SEED`,
+          detail: `Loaded 360 starter readings (24 months x 5 buildings x 3 categories) from Synthetic Campus Series.`
+        }
+      ]
+    };
+
+    let chartInstances = {
+      electricity: null,
+      buildingPie: null,
+      water: null,
+      recycling: null,
+      categoryBuildings: null
+    };
+
+    function getTokenColor(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        console.warn(`State persistence skipped:`, err);
+      }
+    }
+
+    async function loadPersistedState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && Array.isArray(saved.records) && saved.records.length > 0) {
+            appState = Object.assign({}, appState, saved);
+          }
+        }
+      } catch (err) {
+        console.warn(`Unable to load saved state:`, err);
+      }
+    }
+
+    /* =====================================================================
+       3. FILTERING & AGGREGATION HELPERS
+       ===================================================================== */
+    function getFilteredRecords(includeCategories) {
+      return appState.records.filter(r => {
+        if (r.is_archived) return false;
+        if (appState.validationFilter === `validated` && !r.is_validated) return false;
+        if (appState.yearFilter !== `all` && !r.reading_month.startsWith(appState.yearFilter)) return false;
+        if (appState.periodFilter !== `all` && r.period !== appState.periodFilter) return false;
+        if (appState.locationFilter !== `Campus Total` && r.location !== appState.locationFilter) return false;
+        if (appState.monthSpotlight !== null) {
+          const m = Number(r.reading_month.slice(5, 7));
+          if (m !== appState.monthSpotlight) return false;
+        }
+        if (includeCategories && !includeCategories.includes(r.category)) return false;
+        return true;
+      });
+    }
+
+    function getActiveMonthsList() {
+      const years = appState.yearFilter === `all` ? [`2024`, `2025`] : [appState.yearFilter];
+      const months = [];
+      years.forEach(yr => {
+        for (let m = 1; m <= 12; m++) {
+          const period = m <= 6 ? `H1 Baseline` : `H2 Comparison`;
+          if (appState.periodFilter !== `all` && period !== appState.periodFilter) continue;
+          if (appState.monthSpotlight !== null && m !== appState.monthSpotlight) continue;
+          const mm = String(m).padStart(2, `0`);
+          months.push({
+            iso: `${yr}-${mm}-01`,
+            label: `${MONTHS_SHORT[m - 1]} ${yr.slice(2)}`,
+            period: period
+          });
+        }
+      });
+      return months;
+    }
+
+    function computeMonthlyTotals(category) {
+      const months = getActiveMonthsList();
+      const filtered = getFilteredRecords([category]);
+      const map = {};
+      filtered.forEach(r => {
+        map[r.reading_month] = (map[r.reading_month] || 0) + Number(r.value);
+      });
+      return {
+        labels: months.map(m => m.label),
+        periods: months.map(m => m.period),
+        values: months.map(m => (map[m.iso] !== undefined ? map[m.iso] : null))
+      };
+    }
+
+    function sumCategory(category, periodOverride) {
+      return appState.records
+        .filter(r => {
+          if (r.is_archived) return false;
+          if (r.category !== category) return false;
+          if (appState.validationFilter === `validated` && !r.is_validated) return false;
+          if (appState.yearFilter !== `all` && !r.reading_month.startsWith(appState.yearFilter)) return false;
+          if (periodOverride) {
+            if (r.period !== periodOverride) return false;
+          } else if (appState.periodFilter !== `all` && r.period !== appState.periodFilter) {
+            return false;
+          }
+          if (appState.locationFilter !== `Campus Total` && r.location !== appState.locationFilter) return false;
+          if (appState.monthSpotlight !== null && !periodOverride) {
+            const m = Number(r.reading_month.slice(5, 7));
+            if (m !== appState.monthSpotlight) return false;
+          }
+          return true;
+        })
+        .reduce((acc, r) => acc + Number(r.value), 0);
+    }
+
+    function formatNumber(n) {
+      return Math.round(n).toLocaleString(`en-US`);
+    }
+
+    /* =====================================================================
+       4. ROLE, TAB & ALMANAC CONTROLS (HOISTED FUNCTIONS)
+       ===================================================================== */
+    function setRole(role) {
+      appState.role = role;
+      [`student`, `staff`, `admin`].forEach(r => {
+        const btn = document.getElementById(`role-btn-${r}`);
+        if (btn) btn.classList.toggle(`is-active`, r === role);
+      });
+
+      const cfg = ROLE_CONFIG[role];
+      const titleEl = document.getElementById(`role-title-label`);
+      const descEl = document.getElementById(`role-desc`);
+      const tagsEl = document.getElementById(`role-cap-tags`);
+      if (titleEl) titleEl.textContent = `Active Perspective: ${cfg.label}`;
+      if (descEl) descEl.textContent = cfg.desc;
+      if (tagsEl) {
+        tagsEl.innerHTML = cfg.caps
+          .map(c => `<span class="cap-tag ${c.allowed ? `is-allowed` : ``}">${c.allowed ? `✓` : `○`} ${c.text}</span>`)
+          .join(``);
+      }
+
+      const rbacNotice = document.getElementById(`staff-rbac-notice`);
+      if (rbacNotice) rbacNotice.classList.toggle(`hidden`, role === `staff`);
+
+      const submitBtn = document.getElementById(`form-submit-btn`);
+      const batchBtn = document.getElementById(`batch-upload-btn`);
+      if (submitBtn) submitBtn.disabled = role !== `staff`;
+      if (batchBtn) batchBtn.disabled = role !== `staff`;
+
+      updateSpotlightPanel();
+      setActiveTab(cfg.defaultTab, true);
+      persistState();
+    }
+
+    function setActiveTab(tabId, skipPersist) {
+      appState.activeTab = tabId;
+      const allTabs = [`overview`, `categories`, `data-entry`, `exports`, `governance`];
+      allTabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        const view = document.getElementById(`view-${t}`);
+        if (btn) btn.classList.toggle(`is-active`, t === tabId);
+        if (view) view.classList.toggle(`hidden`, t !== tabId);
+      });
+
+      const filterBar = document.getElementById(`global-filter-bar`);
+      if (filterBar) {
+        const showFilters = tabId === `overview` || tabId === `categories` || tabId === `exports`;
+        filterBar.classList.toggle(`hidden`, !showFilters);
+      }
+
+      if (tabId === `overview`) {
+        renderOverview();
+      } else if (tabId === `categories`) {
+        renderCategoryView();
+      } else if (tabId === `data-entry`) {
+        renderCrudLedger();
+        renderAuditLog();
+      } else if (tabId === `exports`) {
+        renderExportPreview();
+      }
+
+      if (!skipPersist) persistState();
+    }
+
+    function selectMonthSpotlight(monthNum) {
+      appState.monthSpotlight = appState.monthSpotlight === monthNum ? null : monthNum;
+      renderAlmanacStrip();
+      refreshActiveView();
+      persistState();
+    }
+
+    function onFilterChange() {
+      const yEl = document.getElementById(`filter-year`);
+      const pEl = document.getElementById(`filter-period`);
+      const lEl = document.getElementById(`filter-location`);
+      const vEl = document.getElementById(`filter-validation`);
+      if (yEl) appState.yearFilter = yEl.value;
+      if (pEl) appState.periodFilter = pEl.value;
+      if (lEl) appState.locationFilter = lEl.value;
+      if (vEl) appState.validationFilter = vEl.value;
+
+      renderAlmanacStrip();
+      refreshActiveView();
+      persistState();
+    }
+
+    function refreshActiveView() {
+      updatePendingBadge();
+      if (appState.activeTab === `overview`) renderOverview();
+      if (appState.activeTab === `categories`) renderCategoryView();
+      if (appState.activeTab === `exports`) renderExportPreview();
+    }
+
+    function cycleGreenTip() {
+      appState.tipIndex = (appState.tipIndex + 1) % GREEN_TIPS.length;
+      updateSpotlightPanel();
+      persistState();
+    }
+
+    function toggleRecyclingChartMode() {
+      appState.recyclingChartMode = appState.recyclingChartMode === `line` ? `bar` : `line`;
+      const btn = document.getElementById(`recyc-mode-btn`);
+      if (btn) {
+        btn.textContent = appState.recyclingChartMode === `line` ? `Switch to H1 vs H2 Bar` : `Switch to Trend Line`;
+      }
+      renderAllCharts();
+      persistState();
+    }
+
+    function setCategoryView(category) {
+      appState.activeCategoryView = category;
+      [`Electricity`, `Water`, `Recycling`].forEach(c => {
+        const pill = document.getElementById(`cat-pill-${c}`);
+        if (pill) pill.classList.toggle(`is-active`, c === category);
+      });
+      renderCategoryView();
+      persistState();
+    }
+
+    /* =====================================================================
+       5. RENDER ALMANAC STRIP & SPOTLIGHT
+       ===================================================================== */
+    function renderAlmanacStrip() {
+      const container = document.getElementById(`season-cells`);
+      const label = document.getElementById(`almanac-label`);
+      const summary = document.getElementById(`selected-month-summary`);
+      if (!container) return;
+
+      const yrLabel = appState.yearFilter === `all` ? `2024–2025` : appState.yearFilter;
+      if (label) label.textContent = `${yrLabel} Reporting Almanac · H1 Baseline vs H2 Comparison`;
+
+      container.innerHTML = MONTHS_SHORT.map((name, idx) => {
+        const mNum = idx + 1;
+        const phaseClass = mNum <= 6 ? `is-prep` : `is-peak`;
+        const selectedClass = appState.monthSpotlight === mNum ? `is-selected` : ``;
+        return `<button type="button" class="season-cell ${phaseClass} ${selectedClass}" onclick="selectMonthSpotlight(${mNum})" aria-label="Spotlight ${name}">${name.slice(0, 1)}<span style="font-size:0.62rem;opacity:0.85;margin-left:1px;">${mNum}</span></button>`;
+      }).join(``);
+
+      if (summary) {
+        if (appState.monthSpotlight !== null) {
+          const mName = MONTHS_SHORT[appState.monthSpotlight - 1];
+          const phase = appState.monthSpotlight <= 6 ? `H1 Baseline` : `H2 Comparison`;
+          summary.textContent = `Spotlighting ${mName} (${phase}) — click again or Reset to view full period`;
+        } else {
+          summary.textContent = `Showing full active period · Click any month cell to spotlight`;
+        }
+      }
+    }
+
+    function updateSpotlightPanel() {
+      const kicker = document.getElementById(`spotlight-kicker`);
+      const heading = document.getElementById(`spotlight-heading`);
+      const body = document.getElementById(`spotlight-body`);
+      const btn = document.getElementById(`spotlight-action-btn`);
+      if (!kicker || !heading || !body || !btn) return;
+
+      if (appState.role === `admin`) {
+        kicker.textContent = `Executive Governance Brief`;
+        heading.textContent = `Institutional Readiness & Reporting Posture`;
+        const pendingCount = appState.records.filter(r => !r.is_archived && !r.is_validated).length;
+        body.textContent = `All environmental metrics are standardized to kWh, kL, and kg with Sprint 1 validation gates active. Pending queue currently holds ${pendingCount} unvalidated draft(s).`;
+        btn.innerHTML = `<i data-lucide="shield-check" aria-hidden="true" width="16" height="16"></i> Review Governance`;
+        btn.onclick = function () { setActiveTab(`governance`); };
+      } else {
+        const tip = GREEN_TIPS[appState.tipIndex % GREEN_TIPS.length];
+        kicker.textContent = `Campus Action · Green Tips Generator (${appState.tipIndex + 1}/${GREEN_TIPS.length})`;
+        heading.textContent = tip.title;
+        body.textContent = tip.body;
+        btn.innerHTML = `<i data-lucide="sparkles" aria-hidden="true" width="16" height="16"></i> Next Green Tip`;
+        btn.onclick = cycleGreenTip;
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updatePendingBadge() {
+      const pending = appState.records.filter(r => !r.is_archived && !r.is_validated).length;
+      const badge = document.getElementById(`pending-badge`);
+      if (badge) badge.textContent = `${pending} Pending`;
+    }
+
+    /* =====================================================================
+       6. RENDER OVERVIEW KPIs & CHARTS
+       ===================================================================== */
+    function renderOverview() {
+      const activeRecs = appState.records.filter(r => !r.is_archived);
+      const validRecs = activeRecs.filter(r => r.is_validated);
+      const validPct = activeRecs.length ? Math.round((validRecs.length / activeRecs.length) * 100) : 100;
+
+      const elecTotal = sumCategory(`Electricity`);
+      const waterTotal = sumCategory(`Water`);
+      const recycTotal = sumCategory(`Recycling`);
+
+      const elecH1 = sumCategory(`Electricity`, `H1 Baseline`);
+      const elecH2 = sumCategory(`Electricity`, `H2 Comparison`);
+      const waterH1 = sumCategory(`Water`, `H1 Baseline`);
+      const waterH2 = sumCategory(`Water`, `H2 Comparison`);
+      const recycH1 = sumCategory(`Recycling`, `H1 Baseline`);
+      const recycH2 = sumCategory(`Recycling`, `H2 Comparison`);
+
+      const fmtDelta = (h1, h2) => {
+        if (!h1 || !h2) return `—`;
+        const pct = ((h2 - h1) / h1) * 100;
+        const sign = pct >= 0 ? `+` : ``;
+        return `H2 ${sign}${pct.toFixed(1)}% vs H1`;
+      };
+
+      const spotVal = document.getElementById(`kpi-spotlight-value`);
+      const spotCap = document.getElementById(`kpi-spotlight-caption`);
+      if (spotVal) spotVal.textContent = `${validPct}% Validated`;
+      if (spotCap) spotCap.textContent = `${validRecs.length} of ${activeRecs.length} active records approved for ${appState.locationFilter}.`;
+
+      const eVal = document.getElementById(`kpi-elec-value`);
+      const eDel = document.getElementById(`kpi-elec-delta`);
+      if (eVal) eVal.textContent = `${formatNumber(elecTotal)} kWh`;
+      if (eDel) eDel.textContent = fmtDelta(elecH1, elecH2);
+
+      const wVal = document.getElementById(`kpi-water-value`);
+      const wDel = document.getElementById(`kpi-water-delta`);
+      if (wVal) wVal.textContent = `${formatNumber(waterTotal)} kL`;
+      if (wDel) wDel.textContent = fmtDelta(waterH1, waterH2);
+
+      const rVal = document.getElementById(`kpi-recyc-value`);
+      const rDel = document.getElementById(`kpi-recyc-delta`);
+      if (rVal) rVal.textContent = `${formatNumber(recycTotal)} kg`;
+      if (rDel) rDel.textContent = fmtDelta(recycH1, recycH2);
+
+      renderAllCharts();
+    }
+
+    function destroyChart(key) {
+      if (chartInstances[key]) {
+        chartInstances[key].destroy();
+        chartInstances[key] = null;
+      }
+    }
+
+    function renderAllCharts() {
+      if (typeof Chart === `undefined`) return;
+
+      const cPrimary = getTokenColor(`--data-1`);
+      const cOchre = getTokenColor(`--data-2`);
+      const cClay = getTokenColor(`--data-3`);
+      const cSlate = getTokenColor(`--data-4`);
+      const cMoss = getTokenColor(`--data-5`);
+      const cGrid = getTokenColor(`--outline-variant`);
+      const cInk = getTokenColor(`--on-surface`);
+      const cLabel = getTokenColor(`--secondary`);
+      const fontMono = getTokenColor(`--font-label`);
+
+      const commonScales = {
+        x: {
+          grid: { display: false },
+          ticks: { color: cLabel, font: { family: fontMono, size: 11 } }
+        },
+        y: {
+          beginAtZero: false,
+          grid: { color: cGrid },
+          ticks: { color: cLabel, font: { family: fontMono, size: 11 } }
+        }
+      };
+
+      // 1. Electricity Line Chart
+      const elecData = computeMonthlyTotals(`Electricity`);
+      const elecCanvas = document.getElementById(`chart-electricity`);
+      if (elecCanvas) {
+        destroyChart(`electricity`);
+        chartInstances.electricity = new Chart(elecCanvas, {
+          type: `line`,
+          data: {
+            labels: elecData.labels,
+            datasets: [{
+              label: `Electricity (kWh)`,
+              data: elecData.values,
+              borderColor: cPrimary,
+              backgroundColor: cPrimary,
+              borderWidth: 2.5,
+              tension: 0.25,
+              pointRadius: 4,
+              spanGaps: false
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: commonScales
+          }
+        });
+      }
+
+      // 2. Building Distribution Doughnut Chart
+      const pieSelect = document.getElementById(`pie-metric-select`);
+      const pieCat = pieSelect ? pieSelect.value : `Electricity`;
+      const pieTitle = document.getElementById(`building-pie-title`);
+      if (pieTitle) pieTitle.textContent = `${pieCat} Share by Building (${CATEGORY_UNITS[pieCat]})`;
+
+      const filteredForPie = appState.records.filter(r => {
+        if (r.is_archived) return false;
+        if (r.category !== pieCat) return false;
+        if (appState.validationFilter === `validated` && !r.is_validated) return false;
+        if (appState.yearFilter !== `all` && !r.reading_month.startsWith(appState.yearFilter)) return false;
+        if (appState.periodFilter !== `all` && r.period !== appState.periodFilter) return false;
+        if (appState.monthSpotlight !== null && Number(r.reading_month.slice(5, 7)) !== appState.monthSpotlight) return false;
+        return true;
+      });
+
+      const buildingTotals = BUILDINGS.map(b =>
+        filteredForPie.filter(r => r.location === b).reduce((acc, r) => acc + Number(r.value), 0)
+      );
+
+      const pieCanvas = document.getElementById(`chart-building-pie`);
+      if (pieCanvas) {
+        destroyChart(`buildingPie`);
+        chartInstances.buildingPie = new Chart(pieCanvas, {
+          type: `doughnut`,
+          data: {
+            labels: BUILDINGS,
+            datasets: [{
+              data: buildingTotals,
+              backgroundColor: [cPrimary, cOchre, cClay, cSlate, cMoss],
+              borderWidth: 2,
+              borderColor: getTokenColor(`--surface-container-low`)
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: `58%`,
+            plugins: {
+              legend: {
+                position: `bottom`,
+                labels: { color: cInk, font: { family: fontMono, size: 11 }, boxWidth: 12 }
+              }
+            }
+          }
+        });
+      }
+
+      // 3. Water Monthly Bar Chart
+      const waterData = computeMonthlyTotals(`Water`);
+      const waterCanvas = document.getElementById(`chart-water`);
+      if (waterCanvas) {
+        destroyChart(`water`);
+        chartInstances.water = new Chart(waterCanvas, {
+          type: `bar`,
+          data: {
+            labels: waterData.labels,
+            datasets: [{
+              label: `Water (kL)`,
+              data: waterData.values,
+              backgroundColor: waterData.periods.map(p => (p === `H1 Baseline` ? cOchre : cSlate)),
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: commonScales.x,
+              y: { beginAtZero: true, grid: { color: cGrid }, ticks: { color: cLabel, font: { family: fontMono, size: 11 } } }
+            }
+          }
+        });
+      }
+
+      // 4. Recycling Trend OR H1 vs H2 Bar Comparison
+      const recycCanvas = document.getElementById(`chart-recycling`);
+      if (recycCanvas) {
+        destroyChart(`recycling`);
+        if (appState.recyclingChartMode === `bar`) {
+          const h1 = sumCategory(`Recycling`, `H1 Baseline`);
+          const h2 = sumCategory(`Recycling`, `H2 Comparison`);
+          chartInstances.recycling = new Chart(recycCanvas, {
+            type: `bar`,
+            data: {
+              labels: [`H1 Baseline (Jan–Jun)`, `H2 Comparison (Jul–Dec)`],
+              datasets: [{
+                label: `Recycling Total (kg)`,
+                data: [h1, h2],
+                backgroundColor: [cOchre, cPrimary],
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: commonScales.x,
+                y: { beginAtZero: true, grid: { color: cGrid }, ticks: { color: cLabel, font: { family: fontMono, size: 11 } } }
+              }
+            }
+          });
+        } else {
+          const recycData = computeMonthlyTotals(`Recycling`);
+          chartInstances.recycling = new Chart(recycCanvas, {
+            type: `line`,
+            data: {
+              labels: recycData.labels,
+              datasets: [{
+                label: `Recycling (kg)`,
+                data: recycData.values,
+                borderColor: cClay,
+                backgroundColor: cClay,
+                borderWidth: 2.5,
+                tension: 0.25,
+                pointRadius: 4,
+                spanGaps: false
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: commonScales
+            }
+          });
+        }
+      }
+    }
+
+    /* =====================================================================
+       7. CATEGORY DEEP DIVE VIEW
+       ===================================================================== */
+    function renderCategoryView() {
+      const cat = appState.activeCategoryView;
+      const unit = CATEGORY_UNITS[cat];
+      const total = sumCategory(cat);
+      const h1Sum = sumCategory(cat, `H1 Baseline`);
+      const h2Sum = sumCategory(cat, `H2 Comparison`);
+      const h1Avg = h1Sum / (appState.yearFilter === `all` ? 12 : 6);
+      const h2Avg = h2Sum / (appState.yearFilter === `all` ? 12 : 6);
+
+      const monthly = computeMonthlyTotals(cat);
+      let peakVal = -1;
+      let peakLabel = `—`;
+      monthly.values.forEach((v, i) => {
+        if (v !== null && v > peakVal) {
+          peakVal = v;
+          peakLabel = monthly.labels[i];
+        }
+      });
+
+      const elTotal = document.getElementById(`cat-kpi-total`);
+      const elH1 = document.getElementById(`cat-kpi-h1`);
+      const elH2 = document.getElementById(`cat-kpi-h2`);
+      const elH2Delta = document.getElementById(`cat-kpi-h2-delta`);
+      const elPeak = document.getElementById(`cat-kpi-peak`);
+      const elPeakM = document.getElementById(`cat-kpi-peak-month`);
+      const elUnitTag = document.getElementById(`cat-table-unit-tag`);
+      const elTitle = document.getElementById(`cat-table-title`);
+      const elChartTitle = document.getElementById(`cat-chart-title`);
+
+      if (elTotal) elTotal.textContent = `${formatNumber(total)} ${unit}`;
+      if (elH1) elH1.textContent = `${formatNumber(h1Avg)} ${unit}`;
+      if (elH2) elH2.textContent = `${formatNumber(h2Avg)} ${unit}`;
+      if (elH2Delta && h1Avg > 0) {
+        const pct = ((h2Avg - h1Avg) / h1Avg) * 100;
+        elH2Delta.textContent = `${pct >= 0 ? `+` : ``}${pct.toFixed(1)}% vs. H1 average`;
+      }
+      if (elPeak) elPeak.textContent = peakVal >= 0 ? `${formatNumber(peakVal)} ${unit}` : `—`;
+      if (elPeakM) elPeakM.textContent = peakLabel;
+      if (elUnitTag) elUnitTag.textContent = `Unit: ${unit}`;
+      if (elTitle) elTitle.textContent = `${cat} Readings (${appState.locationFilter})`;
+      if (elChartTitle) elChartTitle.textContent = `${cat} by Building (${unit})`;
+
+      // Table body
+      const tbody = document.getElementById(`cat-table-body`);
+      const filtered = getFilteredRecords([cat]).sort((a, b) => a.reading_month.localeCompare(b.reading_month));
+      if (tbody) {
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--on-surface-variant);">No matching readings for current filters.</td></tr>`;
+        } else {
+          tbody.innerHTML = filtered.slice(0, 120).map(r => `
+            <tr>
+              <td class="num-cell" style="text-align:left;">${r.reading_month}</td>
+              <td>${r.period}</td>
+              <td>${r.location}</td>
+              <td class="num-cell">${formatNumber(r.value)} ${r.unit}</td>
+              <td><span class="status-pill ${r.is_validated ? `is-valid` : `is-pending`}">${r.is_validated ? `Validated` : `Pending`}</span></td>
+            </tr>
+          `).join(``);
+        }
+      }
+
+      // Horizontal Building Bar Chart
+      const catCanvas = document.getElementById(`chart-category-buildings`);
+      if (catCanvas && typeof Chart !== `undefined`) {
+        destroyChart(`categoryBuildings`);
+        const bRecs = appState.records.filter(r => {
+          if (r.is_archived || r.category !== cat) return false;
+          if (appState.validationFilter === `validated` && !r.is_validated) return false;
+          if (appState.yearFilter !== `all` && !r.reading_month.startsWith(appState.yearFilter)) return false;
+          if (appState.periodFilter !== `all` && r.period !== appState.periodFilter) return false;
+          return true;
+        });
+        const sums = BUILDINGS.map(b => bRecs.filter(r => r.location === b).reduce((acc, r) => acc + Number(r.value), 0));
+        chartInstances.categoryBuildings = new Chart(catCanvas, {
+          type: `bar`,
+          data: {
+            labels: BUILDINGS,
+            datasets: [{
+              label: `${cat} (${unit})`,
+              data: sums,
+              backgroundColor: getTokenColor(`--data-1`),
+              borderRadius: 6
+            }]
+          },
+          options: {
+            indexAxis: `y`,
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { color: getTokenColor(`--outline-variant`) }, ticks: { color: getTokenColor(`--secondary`), font: { family: getTokenColor(`--font-label`), size: 11 } } },
+              y: { grid: { display: false }, ticks: { color: getTokenColor(`--on-surface`), font: { family: getTokenColor(`--font-label`), size: 11 } } }
+            }
+          }
+        });
+      }
+    }
+
+    /* =====================================================================
+       8. STAFF DATA ENTRY, VALIDATION GATE & FOUR-ACTION CRUD
+       ===================================================================== */
+    function syncExpectedUnit() {
+      const catEl = document.getElementById(`form-category`);
+      const unitEl = document.getElementById(`form-unit`);
+      if (catEl && unitEl) {
+        unitEl.value = CATEGORY_UNITS[catEl.value];
+      }
+    }
+
+    function showFormValidation(msg, isOk) {
+      const box = document.getElementById(`form-validation-msg`);
+      if (!box) return;
+      box.textContent = msg;
+      box.className = `inline-banner ${isOk ? `is-success` : `is-error`}`;
+      box.classList.remove(`hidden`);
+    }
+
+    function validateReadingInputs(isEditMode, editId) {
+      const cat = document.getElementById(`form-category`).value;
+      const loc = document.getElementById(`form-location`).value;
+      const month = document.getElementById(`form-month`).value.trim();
+      const rawVal = document.getElementById(`form-value`).value.trim();
+      const unit = document.getElementById(`form-unit`).value;
+
+      const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-01$/;
+      if (!dateRegex.test(month)) {
+        return { ok: false, msg: `Invalid month format: "${month}". Must be the first day of a valid month (YYYY-MM-01).` };
+      }
+
+      const numVal = Number(rawVal);
+      if (rawVal === `` || !Number.isFinite(numVal) || numVal < 0) {
+        return { ok: false, msg: `Invalid amount: measured value must be a numeric figure >= 0.` };
+      }
+
+      const expectedUnit = CATEGORY_UNITS[cat];
+      if (unit !== expectedUnit) {
+        return { ok: false, msg: `Unit mismatch: ${cat} must be measured in ${expectedUnit}, not ${unit}.` };
+      }
+
+      const duplicate = appState.records.find(r =>
+        !r.is_archived &&
+        r.id !== editId &&
+        r.location === loc &&
+        r.category === cat &&
+        r.reading_month === month
+      );
+      if (duplicate && !isEditMode) {
+        return { ok: false, msg: `Duplicate constraint: an active ${cat} reading for ${loc} on ${month} already exists. Use Edit (PATCH) in the ledger to update it.` };
+      }
+
+      return { ok: true, msg: `All Unit 5/7 validation gates passed (${cat}, ${loc}, ${month}, ${numVal} ${unit}).` };
+    }
+
+    function runDryValidation() {
+      const editId = document.getElementById(`edit-record-id`).value;
+      const res = validateReadingInputs(Boolean(editId), editId);
+      showFormValidation(res.msg, res.ok);
+    }
+
+    function submitReadingForm(evt) {
+      evt.preventDefault();
+      if (appState.role !== `staff`) {
+        showGlobalBanner(`Switch to Authorized Sustainability Staff to save or modify records.`, `is-warning`);
+        return;
+      }
+
+      const editId = document.getElementById(`edit-record-id`).value;
+      const isEdit = Boolean(editId);
+      const check = validateReadingInputs(isEdit, editId);
+      if (!check.ok) {
+        showFormValidation(check.msg, false);
+        return;
+      }
+
+      const cat = document.getElementById(`form-category`).value;
+      const loc = document.getElementById(`form-location`).value;
+      const month = document.getElementById(`form-month`).value.trim();
+      const val = Number(document.getElementById(`form-value`).value);
+      const unit = document.getElementById(`form-unit`).value;
+      const prov = document.getElementById(`form-provenance`).value;
+      const note = document.getElementById(`form-audit-note`).value.trim() || `Staff entry`;
+      const isVal = document.getElementById(`form-validated`).checked;
+      const monthNum = Number(month.slice(5, 7));
+      const period = monthNum <= 6 ? `H1 Baseline` : `H2 Comparison`;
+
+      if (isEdit) {
+        const target = appState.records.find(r => r.id === editId);
+        if (target) {
+          const prevVal = target.value;
+          target.category = cat;
+          target.location = loc;
+          target.reading_month = month;
+          target.value = val;
+          target.unit = unit;
+          target.period = period;
+          target.provenance = prov;
+          target.is_validated = isVal;
+          target.note = note;
+          addAuditEntry(`PATCH`, `Updated ${cat} for ${loc} (${month}) from ${prevVal} to ${val} ${unit}. Note: ${note}`);
+          showFormValidation(`Record updated (PATCH) and logged to audit trail.`, true);
+        }
+        cancelEditRecord();
+      } else {
+        const newRec = {
+          id: `rec-${Date.now()}`,
+          location: loc,
+          category: cat,
+          reading_month: month,
+          value: val,
+          unit: unit,
+          period: period,
+          source: note,
+          provenance: prov,
+          is_validated: isVal,
+          is_archived: false,
+          note: note
+        };
+        appState.records.unshift(newRec);
+        addAuditEntry(`POST`, `Added ${cat} reading for ${loc} (${month}): ${val} ${unit} [validated=${isVal}].`);
+        showFormValidation(`Saved new reading (POST). ${isVal ? `Live on dashboard.` : `Queued in Pending Validation gate.`}`, true);
+        document.getElementById(`form-value`).value = ``;
+      }
+
+      updatePendingBadge();
+      renderCrudLedger();
+      renderAuditLog();
+      persistState();
+    }
+
+    function startEditRecord(id) {
+      if (appState.role !== `staff`) {
+        showGlobalBanner(`Switch to Authorized Sustainability Staff to edit records.`, `is-warning`);
+        return;
+      }
+      const r = appState.records.find(item => item.id === id);
+      if (!r) return;
+
+      document.getElementById(`edit-record-id`).value = r.id;
+      document.getElementById(`form-category`).value = r.category;
+      document.getElementById(`form-location`).value = r.location;
+      document.getElementById(`form-month`).value = r.reading_month;
+      document.getElementById(`form-value`).value = r.value;
+      document.getElementById(`form-unit`).value = r.unit;
+      document.getElementById(`form-provenance`).value = r.provenance;
+      document.getElementById(`form-audit-note`).value = r.note || `Staff correction`;
+      document.getElementById(`form-validated`).checked = r.is_validated;
+
+      document.getElementById(`form-heading`).textContent = `Edit Existing Reading (PATCH)`;
+      document.getElementById(`form-submit-btn`).innerHTML = `<i data-lucide="save" aria-hidden="true" width="16" height="16"></i> Save Correction (PATCH)`;
+      document.getElementById(`form-cancel-edit-btn`).classList.remove(`hidden`);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function cancelEditRecord() {
+      document.getElementById(`edit-record-id`).value = ``;
+      document.getElementById(`form-heading`).textContent = `Add Monthly Sustainability Reading`;
+      document.getElementById(`form-submit-btn`).innerHTML = `<i data-lucide="check-circle-2" aria-hidden="true" width="16" height="16"></i> Validate & Save Record`;
+      document.getElementById(`form-cancel-edit-btn`).classList.add(`hidden`);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleValidateRecord(id) {
+      if (appState.role !== `staff`) {
+        showGlobalBanner(`Switch to Authorized Sustainability Staff to approve records.`, `is-warning`);
+        return;
+      }
+      const r = appState.records.find(item => item.id === id);
+      if (!r) return;
+      r.is_validated = !r.is_validated;
+      addAuditEntry(`PATCH`, `${r.is_validated ? `Approved` : `Returned to pending`} ${r.category} for ${r.location} (${r.reading_month}).`);
+      updatePendingBadge();
+      renderCrudLedger();
+      renderAuditLog();
+      persistState();
+    }
+
+    function archiveRecord(id) {
+      if (appState.role !== `staff`) {
+        showGlobalBanner(`Switch to Authorized Sustainability Staff to archive records.`, `is-warning`);
+        return;
+      }
+      const r = appState.records.find(item => item.id === id);
+      if (!r) return;
+      r.is_archived = !r.is_archived;
+      addAuditEntry(`DELETE`, `${r.is_archived ? `Soft-archived` : `Restored`} ${r.category} for ${r.location} (${r.reading_month}) without permanent removal.`);
+      updatePendingBadge();
+      renderCrudLedger();
+      renderAuditLog();
+      persistState();
+    }
+
+    function simulateCsvBatchUpload() {
+      if (appState.role !== `staff`) {
+        showGlobalBanner(`Switch to Authorized Sustainability Staff to run batch CSV upload.`, `is-warning`);
+        return;
+      }
+      const drafts = [
+        { location: `Science Hall`, category: `Electricity`, reading_month: `2026-01-01`, value: 35200, unit: `kWh`, period: `H1 Baseline` },
+        { location: `Student Union`, category: `Water`, reading_month: `2026-01-01`, value: 365, unit: `kL`, period: `H1 Baseline` },
+        { location: `Main Library`, category: `Recycling`, reading_month: `2026-01-01`, value: 1020, unit: `kg`, period: `H1 Baseline` }
+      ];
+      let added = 0;
+      drafts.forEach((d, idx) => {
+        const exists = appState.records.some(r => !r.is_archived && r.location === d.location && r.category === d.category && r.reading_month === d.reading_month);
+        if (!exists) {
+          appState.records.unshift({
+            id: `batch-${Date.now()}-${idx}`,
+            location: d.location,
+            category: d.category,
+            reading_month: d.reading_month,
+            value: d.value,
+            unit: d.unit,
+            period: d.period,
+            source: `Simulated Staff CSV Batch`,
+            provenance: `mock`,
+            is_validated: false,
+            is_archived: false,
+            note: `Awaiting Sprint 1 validation gate approval`
+          });
+          added++;
+        }
+      });
+
+      if (added > 0) {
+        addAuditEntry(`POST`, `Simulated CSV batch upload added ${added} unvalidated draft reading(s) for 2026-01-01.`);
+        showFormValidation(`Uploaded ${added} draft record(s) into Pending Validation queue.`, true);
+      } else {
+        showFormValidation(`2026-01-01 batch drafts already exist in the ledger.`, false);
+      }
+      updatePendingBadge();
+      renderCrudLedger();
+      renderAuditLog();
+      persistState();
+    }
+
+    function addAuditEntry(action, detail) {
+      const now = new Date();
+      const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, `0`)}-${String(now.getDate()).padStart(2, `0`)} ${String(now.getHours()).padStart(2, `0`)}:${String(now.getMinutes()).padStart(2, `0`)}`;
+      appState.auditLog.unshift({
+        timestamp: stamp,
+        actor: ROLE_CONFIG[appState.role].label,
+        action: action,
+        detail: detail
+      });
+    }
+
+    function renderCrudLedger() {
+      const tbody = document.getElementById(`crud-ledger-body`);
+      if (!tbody) return;
+      const statusFilter = document.getElementById(`ledger-status-filter`).value;
+      const catFilter = document.getElementById(`ledger-cat-filter`).value;
+
+      const list = appState.records.filter(r => {
+        if (statusFilter === `archived` && !r.is_archived) return false;
+        if (statusFilter !== `archived` && r.is_archived) return false;
+        if (statusFilter === `pending` && r.is_validated) return false;
+        if (statusFilter === `validated` && !r.is_validated) return false;
+        if (catFilter !== `all` && r.category !== catFilter) return false;
+        return true;
+      }).sort((a, b) => b.reading_month.localeCompare(a.reading_month));
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--on-surface-variant);">No records match this ledger filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.slice(0, 60).map(r => {
+        const badge = r.is_archived
+          ? `<span class="status-pill is-archived">Archived</span>`
+          : (r.is_validated
+            ? `<span class="status-pill is-valid">Validated</span>`
+            : `<span class="status-pill is-pending">Pending</span>`);
+        const isStaff = appState.role === `staff`;
+        return `
+          <tr>
+            <td class="num-cell" style="text-align:left;">${r.reading_month}</td>
+            <td>${r.location}</td>
+            <td>${r.category}</td>
+            <td class="num-cell">${formatNumber(r.value)} ${r.unit}</td>
+            <td>${badge}</td>
+            <td>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" ${isStaff ? `` : `disabled`} onclick="startEditRecord('${r.id}')">Edit</button>
+                <button type="button" class="btn btn-secondary btn-sm" ${isStaff ? `` : `disabled`} onclick="toggleValidateRecord('${r.id}')">${r.is_validated ? `Unapprove` : `Approve`}</button>
+                <button type="button" class="btn btn-danger btn-sm" ${isStaff ? `` : `disabled`} onclick="archiveRecord('${r.id}')">${r.is_archived ? `Restore` : `Archive`}</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join(``);
+    }
+
+    function renderAuditLog() {
+      const container = document.getElementById(`audit-log-list`);
+      const tag = document.getElementById(`audit-count-tag`);
+      if (!container) return;
+      if (tag) tag.textContent = `${appState.auditLog.length} Events`;
+
+      container.innerHTML = appState.auditLog.slice(0, 25).map(ev => `
+        <div style="padding: var(--space-xs) var(--space-sm); border-radius: var(--rounded); background: var(--background); border: var(--border-soft); font-size: 0.85rem;">
+          <div style="display:flex;justify-content:space-between;gap:var(--space-sm);font-family:var(--font-label);font-size:var(--label-size);color:var(--secondary);">
+            <span><strong>${ev.action}</strong> · ${ev.actor}</span>
+            <span>${ev.timestamp}</span>
+          </div>
+          <div style="margin-top:2px;color:var(--on-surface);">${ev.detail}</div>
+        </div>
+      `).join(``);
+    }
+
+    /* =====================================================================
+       9. REPORTS & EXPORT (CSV + TEXT SUMMARY + PRINT PDF)
+       ===================================================================== */
+    function getExportRows() {
+      const cats = [`Electricity`, `Water`, `Recycling`].filter(c => {
+        const el = document.getElementById(`exp-cat-${c}`);
+        return el ? el.checked : true;
+      });
+      const granEl = document.getElementById(`exp-granularity`);
+      const gran = granEl ? granEl.value : `building`;
+      const raw = getFilteredRecords(cats);
+
+      if (gran === `building`) {
+        return raw.sort((a, b) => a.reading_month.localeCompare(b.reading_month) || a.category.localeCompare(b.category));
+      }
+
+      // Aggregate to Campus Total per (month, category)
+      const grouped = {};
+      raw.forEach(r => {
+        const key = `${r.reading_month}|${r.category}`;
+        if (!grouped[key]) {
+          grouped[key] = {
+            location: `Campus Total`,
+            category: r.category,
+            reading_month: r.reading_month,
+            value: 0,
+            unit: r.unit,
+            period: r.period,
+            source: `Synthetic Campus Series`,
+            provenance: r.provenance,
+            is_validated: r.is_validated
+          };
+        }
+        grouped[key].value += Number(r.value);
+        grouped[key].is_validated = grouped[key].is_validated && r.is_validated;
+      });
+      return Object.values(grouped).sort((a, b) => a.reading_month.localeCompare(b.reading_month) || a.category.localeCompare(b.category));
+    }
+
+    function renderExportPreview() {
+      const rows = getExportRows();
+      const countTag = document.getElementById(`csv-row-count-tag`);
+      const previewBody = document.getElementById(`csv-preview-body`);
+      const metaLine = document.getElementById(`report-meta-line`);
+      const footerDate = document.getElementById(`rep-footer-date`);
+
+      if (countTag) countTag.textContent = `${rows.length} rows ready`;
+      if (metaLine) {
+        metaLine.textContent = `Scope: ${appState.yearFilter === `all` ? `2024–2025` : appState.yearFilter} · Period: ${appState.periodFilter} · Location: ${appState.locationFilter} · Role: ${ROLE_CONFIG[appState.role].label}`;
+      }
+      if (footerDate) {
+        footerDate.textContent = `Generated: ${new Date().toISOString().slice(0, 10)} · Role: ${ROLE_CONFIG[appState.role].label}`;
+      }
+
+      const elecT = sumCategory(`Electricity`);
+      const waterT = sumCategory(`Water`);
+      const recycT = sumCategory(`Recycling`);
+      const repElec = document.getElementById(`rep-elec-total`);
+      const repWater = document.getElementById(`rep-water-total`);
+      const repRecyc = document.getElementById(`rep-recyc-total`);
+      if (repElec) repElec.textContent = `${formatNumber(elecT)} kWh`;
+      if (repWater) repWater.textContent = `${formatNumber(waterT)} kL`;
+      if (repRecyc) repRecyc.textContent = `${formatNumber(recycT)} kg`;
+
+      const compBody = document.getElementById(`rep-comparison-body`);
+      if (compBody) {
+        compBody.innerHTML = [`Electricity`, `Water`, `Recycling`].map(c => {
+          const u = CATEGORY_UNITS[c];
+          const h1 = sumCategory(c, `H1 Baseline`);
+          const h2 = sumCategory(c, `H2 Comparison`);
+          const delta = h1 > 0 ? (((h2 - h1) / h1) * 100).toFixed(1) + `%` : `—`;
+          return `
+            <tr>
+              <td><strong>${c}</strong></td>
+              <td class="num-cell">${formatNumber(h1)} ${u}</td>
+              <td class="num-cell">${formatNumber(h2)} ${u}</td>
+              <td class="num-cell">${h1 > 0 && h2 >= h1 ? `+` : ``}${delta}</td>
+            </tr>
+          `;
+        }).join(``);
+      }
+
+      if (previewBody) {
+        if (rows.length === 0) {
+          previewBody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--on-surface-variant);">Select at least one category to preview CSV rows.</td></tr>`;
+        } else {
+          previewBody.innerHTML = rows.slice(0, 12).map(r => `
+            <tr>
+              <td>${r.location}</td>
+              <td>${r.category}</td>
+              <td class="num-cell" style="text-align:left;">${r.reading_month}</td>
+              <td class="num-cell">${r.value}</td>
+              <td>${r.unit}</td>
+              <td>${r.is_validated}</td>
+            </tr>
+          `).join(``);
+        }
+      }
+    }
+
+    function triggerDownload(content, contentType, filename) {
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: contentType,
+          encoding: `UTF-8`,
+          filename: filename
+        });
+      } else {
+        const blob = new Blob([content], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement(`a`);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    function downloadCsvExport() {
+      const rows = getExportRows();
+      if (rows.length === 0) {
+        showGlobalBanner(`No rows selected for CSV export. Check at least one category.`, `is-warning`);
+        return;
+      }
+      const header = `location,category,reading_month,value,unit,period,source,provenance,is_validated`;
+      const lines = rows.map(r =>
+        [r.location, r.category, r.reading_month, r.value, r.unit, r.period, r.source, r.provenance, r.is_validated]
+          .map(cell => `"${String(cell).replace(/"/g, `""`)}"`)
+          .join(`,`)
+      );
+      const csv = [header].concat(lines).join(`\n`);
+      const filename = `greentrack_${appState.yearFilter}_${appState.locationFilter.toLowerCase().replace(/\s+/g, `_`)}.csv`;
+      triggerDownload(csv, `text/csv`, filename);
+      showGlobalBanner(`Exported ${rows.length} rows to ${filename}.`, `is-success`);
+    }
+
+    function downloadTextSummaryReport() {
+      const lines = [
+        `GREENTRACK CAMPUS SUSTAINABILITY SUMMARY REPORT`,
+        `==============================================`,
+        `Generated: ${new Date().toISOString()}`,
+        `Active Role: ${ROLE_CONFIG[appState.role].label}`,
+        `Scope: Year=${appState.yearFilter} | Period=${appState.periodFilter} | Location=${appState.locationFilter}`,
+        `Provenance: Synthetic Campus Series (mock)`,
+        ``,
+        `EXECUTIVE TOTALS & H1 vs H2 COMPARISON`,
+        `----------------------------------------------`
+      ];
+      [`Electricity`, `Water`, `Recycling`].forEach(c => {
+        const u = CATEGORY_UNITS[c];
+        const tot = sumCategory(c);
+        const h1 = sumCategory(c, `H1 Baseline`);
+        const h2 = sumCategory(c, `H2 Comparison`);
+        lines.push(`${c} (${u}): Total=${formatNumber(tot)} | H1=${formatNumber(h1)} | H2=${formatNumber(h2)}`);
+      });
+      lines.push(``);
+      lines.push(`Notice: Synthetic starter environmental data for academic demonstration.`);
+      const filename = `greentrack_summary_${appState.yearFilter}.txt`;
+      triggerDownload(lines.join(`\n`), `text/plain`, filename);
+      showGlobalBanner(`Downloaded executive summary (${filename}).`, `is-success`);
+    }
+
+    function printPdfSummary() {
+      window.print();
+    }
+
+    /* =====================================================================
+       10. GLOBAL BANNER & RESET STARTER DATA
+       ===================================================================== */
+    function showGlobalBanner(msg, typeClass) {
+      const banner = document.getElementById(`global-status-banner`);
+      const text = document.getElementById(`global-status-text`);
+      if (!banner || !text) return;
+      text.textContent = msg;
+      banner.className = `inline-banner no-print ${typeClass || ``}`;
+      banner.classList.remove(`hidden`);
+    }
+
+    function hideGlobalBanner() {
+      const banner = document.getElementById(`global-status-banner`);
+      if (banner) banner.classList.add(`hidden`);
+    }
+
+    function handleResetDemo(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirm Reset?`;
+        setTimeout(() => {
+          btn.dataset.armed = `false`;
+          btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true" width="14" height="14"></i> Reset Starter Data`;
+          if (window.lucide) lucide.createIcons();
+        }, 4000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true" width="14" height="14"></i> Reset Starter Data`;
+      appState.records = buildStarterRecords();
+      appState.monthSpotlight = null;
+      appState.auditLog = [{
+        timestamp: new Date().toISOString().slice(0, 16).replace(`T`, ` `),
+        actor: ROLE_CONFIG[appState.role].label,
+        action: `RESET`,
+        detail: `Restored original 360 synthetic starter readings.`
+      }];
+      renderAlmanacStrip();
+      updatePendingBadge();
+      refreshActiveView();
+      renderCrudLedger();
+      renderAuditLog();
+      persistState();
+      showGlobalBanner(`Starter dataset restored (360 readings).`, `is-success`);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    /* =====================================================================
+       11. BOOTSTRAP
+       ===================================================================== */
+    async function initApp() {
+      await loadPersistedState();
+
+      // Sync filter dropdowns with loaded state
+      const yEl = document.getElementById(`filter-year`);
+      const pEl = document.getElementById(`filter-period`);
+      const lEl = document.getElementById(`filter-location`);
+      const vEl = document.getElementById(`filter-validation`);
+      if (yEl) yEl.value = appState.yearFilter;
+      if (pEl) pEl.value = appState.periodFilter;
+      if (lEl) lEl.value = appState.locationFilter;
+      if (vEl) vEl.value = appState.validationFilter;
+
+      renderAlmanacStrip();
+      updatePendingBadge();
+      setRole(appState.role);
+      setActiveTab(appState.activeTab || `overview`, true);
+
+      if (window.lucide) lucide.createIcons();
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
